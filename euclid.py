@@ -1,11 +1,14 @@
+## Euclidean algorithm
+## https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm
+## Find GCD(a,b) AND find x,y s.t. GCD(a,b) = x*a + y*b
+## If GCD(a,b) = 1, then x is the modular multiplicative inverse of a mod b
+
+
+## I wrote this
 def gcd(a,b):
     if a <=0 or b <=0:
         print("Only use positive values")
     else:
-        if a > b:
-            tmp = a
-            a = b
-            b = tmp
         remainder = b % a
         while remainder > 0 :
             b = a
@@ -13,27 +16,16 @@ def gcd(a,b):
             remainder = b % a
         return a
 
-
+## These more sophisticated approaches are from wikibooks
 ## https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm
-
-def egcd(a, b):
-    if a == 0:
-        return (b, 0, 1)
-    else:
-        g, y, x = egcd(b % a, a)
-        return (g, x - (b // a) * y, y)
-
-def modinv(a, m):
-    g, x, y = egcd(a, m)
-    if g != 1:
-        raise Exception('modular inverse does not exist')
-    else:
-        return x % m
-
-    
+## Iterative approach 
 from typing import Tuple
+
+
 def xgcd(a: int, b: int) -> Tuple[int, int, int]:
     """return (g, x, y) such that a*x + b*y = g = gcd(a, b)"""
+    ## if gcd(a,b) = 1, then x is the modular multiplicative inverse of a mod b, i.e., ax = 1 mod b
+    ## x0 will be the "count" of a's, y0 will be the "count" of b's
     x0, x1, y0, y1 = 0, 1, 1, 0
     while a != 0:
         (q, a), b = divmod(b, a), a
@@ -42,10 +34,26 @@ def xgcd(a: int, b: int) -> Tuple[int, int, int]:
     return b, x0, y0    
 
 
-xgcd(42823,6409)
-gcd(42823,6409)
-gcd(2818,769)
+## Recursive approach
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
+
+gcd(6409,42823)
 gcd(769,2818)
+gcd(769,1200)
+
+
+xgcd(6409,42823)
+xgcd(769,2818)
 xgcd(769,1200)
 
-modinv(769,1200)
