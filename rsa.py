@@ -1,4 +1,5 @@
 import time
+import euclid
 
 ## RSA public-key encryption
 ## Encryption key N is the product of primes p,q
@@ -21,7 +22,8 @@ N = p*q
 phi_N = (p-1)*(q-1)
 
 e = 17
-d = 1713
+(gcd, d, y) = euclid.xgcd(17,phi_N)
+print(d)
 ## Confirm that e*d = 1 mod phi_N
 ## Note that it is easy to generate d if you know e and phi_N
 
@@ -67,7 +69,7 @@ for encryptedBlock in encrypted:
 et = time.time()
 decrypt_elapsed_time = et - st
 
-print("Decrypt the encrypted chunks to yield", decrypted)    
+print("\nDecrypt the encrypted chunks to yield", decrypted)    
 print("Expressed as plain text:", decryptedText)    
 print('Execution time:', decrypt_elapsed_time, 'seconds')
 
